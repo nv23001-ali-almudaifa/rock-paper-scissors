@@ -1,8 +1,3 @@
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
 let humanScore = 0;
 let computerScore = 0;
 
@@ -18,21 +13,17 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    return new Promise(resolve => {
-        readline.question("Enter your choice (rock, paper, or scissors): ", answer => {
-            resolve(answer.toLowerCase());
-        });
-    });
+    return prompt("Enter your choice (rock, paper, or scissors):").toLowerCase();
 }
 
-async function playRound(humanChoice, computerChoice) {
+function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase();
-
+    
     if (humanChoice === computerChoice) {
         console.log("It's a tie!");
         return;
     }
-
+    
     if (
         (humanChoice === "rock" && computerChoice === "scissors") ||
         (humanChoice === "paper" && computerChoice === "rock") ||
@@ -46,16 +37,16 @@ async function playRound(humanChoice, computerChoice) {
     }
 }
 
-async function playGame() {
+function playGame() {
     humanScore = 0;
     computerScore = 0;
-
+    
     for (let i = 0; i < 5; i++) {
-        const humanSelection = await getHumanChoice();
+        const humanSelection = getHumanChoice();
         const computerSelection = getComputerChoice();
-        await playRound(humanSelection, computerSelection);
+        playRound(humanSelection, computerSelection);
     }
-
+    
     if (humanScore > computerScore) {
         console.log(`You won the game! Final score: You ${humanScore} - Computer ${computerScore}`);
     } else if (computerScore > humanScore) {
@@ -63,8 +54,6 @@ async function playGame() {
     } else {
         console.log(`The game was a tie! Final score: You ${humanScore} - Computer ${computerScore}`);
     }
-
-    readline.close();
 }
 
 playGame();
